@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function hasRole($role)
+    {
+        // Asumiendo que tiene una columna 'role' en su tabla users
+        return $this->role === $role;
+    }
 }

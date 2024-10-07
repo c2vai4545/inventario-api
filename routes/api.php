@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,17 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
+
     return $request->user();
 });
+Route::post('/register', 'Auth\AuthController@register');
+Route::post('/login', 'Auth\AuthController@login');
+
+Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    // Rutas solo para administradores
+});
+
+Route::middleware(['auth:api', 'role:user'])->group(function () {
+    // Rutas solo para usuarios
+});
+
