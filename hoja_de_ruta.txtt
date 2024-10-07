@@ -1,14 +1,14 @@
 Comenzaremos con lo básico y luego iremos añadiendo más funcionalidades. Aquí está el plan:
-1. Configuración inicial del proyecto:
+ok 1. Configuración inicial del proyecto:
 - Asegúrate de que tu archivo composer.json esté correctamente configurado para Laravel 5.4 y PHP 5.6.4.
-2. Diseño de la base de datos:
+ok 2. Diseño de la base de datos:
 - Crea una migración para la tabla de materiales.
 - Crea una migración para la tabla de usuarios con roles.
-3. Configuración de autenticación:
+ok 3. Configuración de autenticación:
 - Implementa la autenticación con API tokens.
-4. Creación de modelos:
+ok 4. Creación de modelos:
 - Crea los modelos para Material y User.
-5. Implementación de controladores:
+ok 5. Implementación de controladores:
 - Crea un controlador para manejar las operaciones CRUD de materiales.
 6. Definición de rutas:
 - Define las rutas para los endpoints de la API.

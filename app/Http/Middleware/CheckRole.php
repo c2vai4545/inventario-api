@@ -14,7 +14,7 @@ class CheckRole
      * @return mixed
      */
     public function handle($request, Closure $next, $role){
-        if (!$request->user() || !$request->user()->hasRole($role)) {
+        if (!$request->user() || $request->user()->role !== $role) {
             return response('No autorizado.', 403);
         }
         return $next($request);

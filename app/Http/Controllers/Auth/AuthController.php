@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Clase AuthController
@@ -23,18 +24,26 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:55',
             'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'role' => 'required|in:admin,user'  // Validamos que el rol sea 'admin' o 'user'
         ]);
 
-        $validatedData['password'] = Hash::make($request->password);
-        $validatedData['api_token'] = Str::random(60);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-        $user = User::create($validatedData);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'api_token' => Str::random(60),
+            'role' => $request->role  // Asignamos el rol proporcionado en la solicitud
+        ]);
 
-        return response(['user' => $user, 'token' => $user->api_token]);
+        return response(['user' => $user, 'token' => $user->api_token, 'role' => $user->role]);
     }
 
     /**
@@ -45,12 +54,16 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'email|required',
             'password' => 'required'
         ]);
 
-        $user = User::where('email', $validatedData['email'])->first();
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             $token = Str::random(60);
