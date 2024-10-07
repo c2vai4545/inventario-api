@@ -18,14 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', 'Auth\AuthController@register');
 Route::post('/login', 'Auth\AuthController@login');
 
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
-    // Rutas solo para administradores
+    // Rutas para probar el rol de administrador
     Route::get('/admin-only', function () {
         return response()->json(['mensaje' => 'Eres un administrador']);
     });
+    // Rutas solo para administradores
+    Route::post('/register', 'Auth\AuthController@register');
+    Route::delete('/inventario/{id}', 'InventarioController@destroy');
 });
 
 Route::group(['middleware' => ['auth:api', 'role:user']], function () {
@@ -34,4 +36,8 @@ Route::group(['middleware' => ['auth:api', 'role:user']], function () {
         return response()->json(['mensaje' => 'Eres un usuario autenticado']);
     });
     // Rutas solo para usuarios
+    Route::get('/inventario', 'InventarioController@index');
+    Route::post('/inventario', 'InventarioController@store');
+    Route::get('/inventario/{id}', 'InventarioController@show');
+    Route::put('/inventario/{id}', 'InventarioController@update');
 });

@@ -16,7 +16,7 @@ class Personal extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'apellido'];
+    protected $fillable = ['nombre'];
 
     /**
      * Obtiene los inventarios asociados con este miembro del personal.
