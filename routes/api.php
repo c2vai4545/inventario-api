@@ -28,6 +28,10 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     // Rutas solo para administradores
     Route::post('/register', 'Auth\AuthController@register');
     Route::delete('/inventario/{id}', 'InventarioController@destroy');
+    Route::get('/inventario', 'InventarioController@index');
+    Route::post('/inventario', 'InventarioController@store');
+    Route::get('/inventario/{id}', 'InventarioController@show');
+    Route::put('/inventario/{id}', 'InventarioController@update');
 });
 
 Route::group(['middleware' => ['auth:api', 'role:user']], function () {

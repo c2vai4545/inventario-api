@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // Otros comandos...
+        \App\Console\Commands\RecreatesMigrationsTable::class,
     ];
 
     /**
