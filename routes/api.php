@@ -15,17 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-
     return $request->user();
 });
+
 Route::post('/register', 'Auth\AuthController@register');
 Route::post('/login', 'Auth\AuthController@login');
 
-Route::middleware(['auth:api', 'role:admin'])->group(function () {
+Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     // Rutas solo para administradores
+    Route::get('/admin-only', function () {
+        return response()->json(['mensaje' => 'Eres un administrador']);
+    });
 });
 
-Route::middleware(['auth:api', 'role:user'])->group(function () {
+Route::group(['middleware' => ['auth:api', 'role:user']], function () {
+    // Ruta para probar el rol de usuario
+    Route::get('/user-only', function () {
+        return response()->json(['mensaje' => 'Eres un usuario autenticado']);
+    });
     // Rutas solo para usuarios
 });
-
