@@ -2,34 +2,54 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Los atributos que son asignables en masa.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'role', 'active'
+        'name',
+        'email', 
+        'password',
+        'role',
+        'active'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Los atributos que deben ocultarse para las matrices.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    public function hasRole($role)
+    /**
+     * Los atributos que deben convertirse.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Verifica si el usuario tiene un rol específico.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
     {
-        // Asumiendo que tiene una columna 'role' en su tabla users
         return $this->role === $role;
     }
 }

@@ -1,24 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-/**
- * Clase AddApiTokenToUsersTable
- * 
- * Esta migración agrega la columna 'api_token' a la tabla 'users'.
- */
-class AddApiTokenToUsersTable extends Migration
+return new class extends Migration
 {
     /**
-     * Ejecuta la migración.
+     * Ejecuta las migraciones.
      *
-     * Agrega la columna 'api_token' a la tabla 'users'.
+     * Esta migración agrega una columna 'api_token' a la tabla 'users'.
+     * La columna 'api_token' es de tipo string, única, nullable y tiene una longitud máxima de 60 caracteres.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('api_token', 60)->unique()->nullable();
@@ -26,16 +22,16 @@ class AddApiTokenToUsersTable extends Migration
     }
 
     /**
-     * Revierte la migración.
+     * Revierte las migraciones.
      *
-     * Elimina la columna 'api_token' de la tabla 'users'.
+     * Esta función elimina la columna 'api_token' de la tabla 'users'.
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('api_token');
         });
     }
-}
+};

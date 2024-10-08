@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\InventarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +25,7 @@ Route::middleware(['auth:api', 'active'])->get('/user', function (Request $reque
 
 // Ruta para iniciar sesión (no necesita verificación de usuario activo)
 // Maneja el proceso de autenticación del usuario
-Route::post('/login', 'Auth\AuthController@login');
+Route::post('/login', [AuthController::class, 'login']);
 
 // Grupo de rutas para administradores
 Route::group(['middleware' => ['auth:api', 'active', 'role:admin']], function () {

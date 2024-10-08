@@ -27,60 +27,60 @@ class CrearTablaInventario extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         // Creación de la tabla tipos_recurso
         Schema::create('tipos_recurso', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla areas
         Schema::create('areas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla especialidades
         Schema::create('especialidades', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla tipos_equipo
         Schema::create('tipos_equipo', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla marcas
         Schema::create('marcas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla estados
         Schema::create('estados', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla ubicaciones
         Schema::create('ubicaciones', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
 
         // Creación de la tabla personal
         Schema::create('personal', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre');
             $table->string('apellido');
             $table->timestamps();
@@ -88,33 +88,23 @@ class CrearTablaInventario extends Migration
 
         // Creación de la tabla inventario
         Schema::create('inventario', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('tipo_recurso_id')->unsigned();
-            $table->integer('area_id')->unsigned();
-            $table->integer('especialidad_id')->unsigned()->nullable();
-            $table->integer('tipo_equipo_id')->unsigned();
-            $table->integer('marca_id')->unsigned();
+            $table->id();
+            $table->foreignId('tipo_recurso_id')->constrained('tipos_recurso');
+            $table->foreignId('area_id')->constrained('areas');
+            $table->foreignId('especialidad_id')->nullable()->constrained('especialidades');
+            $table->foreignId('tipo_equipo_id')->constrained('tipos_equipo');
+            $table->foreignId('marca_id')->constrained('marcas');
             $table->string('modelo');
             $table->string('procesador')->nullable();
             $table->string('ram')->nullable();
             $table->string('disco_duro')->nullable();
             $table->string('serie');
             $table->string('cod_patrimonial')->nullable();
-            $table->integer('estado_id')->unsigned();
-            $table->integer('ubicacion_id')->unsigned();
-            $table->integer('personal_id')->unsigned()->nullable();
+            $table->foreignId('estado_id')->constrained('estados');
+            $table->foreignId('ubicacion_id')->constrained('ubicaciones');
+            $table->foreignId('personal_id')->nullable()->constrained('personal');
             $table->text('observaciones')->nullable();
             $table->timestamps();
-
-            // Definición de claves foráneas
-            $table->foreign('tipo_recurso_id')->references('id')->on('tipos_recurso');
-            $table->foreign('area_id')->references('id')->on('areas');
-            $table->foreign('especialidad_id')->references('id')->on('especialidades');
-            $table->foreign('tipo_equipo_id')->references('id')->on('tipos_equipo');
-            $table->foreign('marca_id')->references('id')->on('marcas');
-            $table->foreign('estado_id')->references('id')->on('estados');
-            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones');
-            $table->foreign('personal_id')->references('id')->on('personal');
         });
     }
 
@@ -125,7 +115,7 @@ class CrearTablaInventario extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('inventario');
         Schema::dropIfExists('personal');

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Clase Area
@@ -23,7 +24,7 @@ class Area extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function inventarios()
+    public function inventarios(): HasMany
     {
         return $this->hasMany(Inventario::class);
     }
